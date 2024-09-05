@@ -50,44 +50,9 @@ Copy code
 from pyfinviz.screener import Screener
 import requests
 
-# Token and Chat ID
-TOKEN = ''  # Your Telegram bot token
-CHAT_ID = ''  # Your Telegram chat ID
 
-# Function to send messages to Telegram
-def send_telegram_message(message):
-    url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={CHAT_ID}'
-    payload = {
-        'chat_id': CHAT_ID,
-        'text': message
-    }
-    response = requests.post(url, data=payload)
-    return response
+Schedule the script to run daily using a task scheduler
 
-# Parameters from Finviz
-options = [
-    Screener.IndexOption.S_AND_P_500,  # S&P 500
-    Screener.RSI14Option.OVERSOLD_30,  # RSI below 30
-    Screener._200DaySimpleMovingAverageOption.PRICE_ABOVE_SMA200  # Price above 200-day SMA
-]
-
-# Finviz Screener Setup
-screener = Screener(filter_options=options, view_option=Screener.ViewOption.VALUATION, pages=[x for x in range(1, 2)])
-
-for page_num, df in screener.data_frames.items():
-    if df.empty:
-        message = "No stocks match the RSI strategy today."
-    else:
-        tickers = df['Ticker'].to_string(index=False)  # Extract ticker symbols
-        message = f"Stocks matching the RSI strategy:\n{tickers}"
-
-    # Send message on Telegram
-    send_telegram_message(message)
-Future Improvements
-Add more filter options for stock screening.
-Schedule the script to run daily using a task scheduler (like cron on Linux or Task Scheduler on Windows).
-Enhance error handling to account for potential issues with the Finviz API or Telegram connectivity.
 License
 This project is open source under the MIT License.
 
-This README outlines the project objectives, how to set up and run the script, and details on the code's logic.
