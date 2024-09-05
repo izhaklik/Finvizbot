@@ -54,5 +54,5 @@ import requests
 Schedule the script to run daily using a task scheduler
 
 License
-This project is open source under the MIT License.
+**This project is open source under the MIT License.**
 
